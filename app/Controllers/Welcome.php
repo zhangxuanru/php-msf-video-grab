@@ -14,6 +14,6 @@ class Welcome extends Controller
 {
     public function actionIndex()
     {
-        $this->output('hello world!');
+        $this->output('hi zxr,国兴 hello world!');
     }
 }
