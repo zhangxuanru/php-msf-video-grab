@@ -20,9 +20,20 @@ $config['http']['domain']         = [
         'root'  => ROOT_PATH . '/www/',
         'index' => ROOT_PATH . '/www/index.html',
     ],
+    'grab.13520v.com' => [
+        'root'  => ROOT_PATH . '/www/',
+        'index' => ROOT_PATH . '/www/index.html',
+    ],
+   'manager.grabs.13520v.com' => [
+        'root'  => ROOT_PATH . '/www/',
+        'index' => ROOT_PATH . '/www/index.html',
+    ]
+
 ];
 // http访问时默认方法
 $config['http']['default_method'] = 'Index';
 // dns缓存有效时间，单位秒
 $config['http']['dns']['expire']  = 10;
+//method prefix
+$config['http']['method_prefix'] = 'action';
 return $config;

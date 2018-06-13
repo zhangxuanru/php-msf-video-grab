@@ -9,7 +9,8 @@
 
 define('ROOT_PATH', __DIR__);
 define('APP_DIR', ROOT_PATH . '/app');
-define('APPLICATION_ENV', $_ENV['MSF_ENV'] ?? 'docker');
+//define('APPLICATION_ENV', $_ENV['MSF_ENV'] ?? 'dev');
+define('APPLICATION_ENV','dev');
 define('SYSTEM_NAME', 'grab');
 define("WWW_DIR", realpath(dirname(__FILE__) . '/..'));
 define('RUNTIME_DIR', WWW_DIR . '/runtime/' . SYSTEM_NAME);

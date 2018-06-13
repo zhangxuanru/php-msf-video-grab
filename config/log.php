@@ -31,6 +31,15 @@ $config['server']['log'] = [
             'format' => "%datetime% [%level_name%] [%channel%] [logid:%logId%] %message%\n",
             'stream' => RUNTIME_DIR . '/notice.log',
             'buffer' => 0,
+        ],
+        'error' => [
+            'levelList' => [
+                \PG\Log\PGLog::ERROR
+            ],
+            'dateFormat' => "Y/m/d H:i:s",
+            'format' => "%datetime% [%level_name%] [%channel%] [logid:%logId%] %message%\n",
+            'stream' => RUNTIME_DIR . '/error.log',
+            'buffer' => 0,
         ]
     ]
 ];
