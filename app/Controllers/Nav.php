@@ -1,79 +1,146 @@
 <?php
 /**
- * 导航设置
+ * 栏目管理
  *
  * @author strive965432@gmail.com
  * @copyright zxr Technology Co.,Ltd.
  */
 
-namespace App\Controllers; 
-
-use App\Library\Tool\Picture;
+namespace App\Controllers;
+use App\Library\Tool\UrlEncrypt;
 
 class Nav extends Base{
-  
+
+    /**
+     * 栏目 列表
+     */
     public function actionIndex()
-    { 
-        $this->display();
-    }  
-
-    /**
-     * [actionUpload 上传logo图片]
-     * @return [type] [description]
-     */
-    public function actionUpload()
     {
-     //print_r($this->getContext()->getInput()->getAllPostGet());
-     //print_r($this->getContext()->getInput()->getFile('imgFile'));
-      $imgFile = $this->getContext()->getInput()->getFile('imgFile');
-      if(!empty($imgFile)){
-        try{
-            $fileName = 'logo'.strrchr($imgFile['name'],'.');
-            $pictureObj = new Picture();
-            $ret =  $pictureObj->uploadPicture('logo',$imgFile['tmp_name'],$fileName);  
-            if($ret['code'] != 200 ){
-                throw new \Exception($ret['msg'], 1); 
+        //获取顶级导航
+         $navList = yield  $this->getNavLogicInstance()->getAllData();
+         foreach($navList as $key => $val){
+            $cat_id  = $val['cat_id'];
+            if(empty($cat_id)){
+                continue;
             }
-            $ret['error'] = 0;    
-            $this->outputJson($ret);  
-         }catch(\Exception $e){
-            $ret = ['error' => $e->getCode(),'message' => $e->getMessage(),'url'=>'']; 
-            $this->outputJson($ret);  
-         }
-     }
-   }
+            $catIdArr = explode(',',$cat_id);
+            $catData  = yield $this->getCateModelInstance()->getCateGoryDataById($catIdArr);
+            $catList  = array_column($catData,'category_name');
+            $catIdData = array_column($catData,'id');
+            $navList[$key]['catData'] = implode(', ',$catList);
+            $navList[$key]['catIdData'] =  implode(',',$catIdData);
+        }
+        $data = [];
+        foreach($navList as $key => $val){
+             if(empty($val['pid'])){
+                 $data[] = $val;
+                   foreach($navList as $k => $v){
+                       if($v['pid'] == $val['id']){
+                           $data[] = $v;
+                           unset($navList[$k]);
+                       }
+                   }
+                 unset($navList[$key]);
+             }
+        }
+        unset($navList);
+        $regionList = array(
+            1 => '导航栏',
+            2 => '左侧',
+            3 => '主区域',
+            4 => '右侧'
+        );
+        $this->assign('navList',$data);
+        $this->assign('regionList',$regionList);
+        $this->display();
+    }
+
 
     /**
-     * 保存网站基本设置
+     * 添加导航
      */
-    public function actionSave()
+    public function actionAddNav()
     {
-        $postData = $this->getContext()->getInput()->getAllPostGet();
-        $error = ['code' => '500','msg' => '数据为空'];
-        if(empty($postData) || empty($postData['site_webname'])){
-             $this->outputJson($error);
-             return false;
+        $id = $this->getContext()->getInput()->get('id');
+        $row = [];
+        if(!empty($id)){
+             $row = yield $this->getNavLogicInstance()->getNavDataByIdData($id);
         }
-        $configPath =  $this->configPath;
-        if(file_exists($configPath)){
-             file_put_contents($configPath,'<?php $siteInfo ='. var_export($postData,true).';');
-        }else{
-            $error['msg'] = '配置文件不存在';
-            $this->outputJson($error);
-            return false;
+        //获取顶级导航
+        $navList = yield  $this->getNavLogicInstance()->getNavDataByPidData(0);
+        //获取分类
+        $data  = yield $this->getCateModelInstance()->getCateDataByPid();
+        foreach($data as $key => $val){
+            $subCatList = yield $this->getCateModelInstance()->getCateDataByPidData($val['id']);
+            if(empty($subCatList)){
+                unset($data[$key]);
+                continue;
+            }
+            $data[$key]['subCatList'] = $subCatList;
         }
-        $error['code'] = 200;
-        $error['msg'] = '保存成功';
-        $this->outputJson($error);
+        $this->assign('row',$row);
+        $this->assign('data',$data);
+        $this->assign('navList',$navList);
+        $this->display();
     }
 
     /**
-     * 销毁,解除引用
+     * 保存导航数据
      */
-    public function destroy()
+    public function actionNavsave()
     {
-
+        $postData = $this->getContext()->getInput()->getAllPost();
+        $urlObj = $this->getObject(UrlEncrypt::class);
+        $msgData = ['code'=> '-1', 'message' => 'error'];
+        try{
+            $id = isset($postData['id']) ? $postData['id'] : 0;
+            $postData['cat_id'] = implode(',',$postData['cat_id']);
+            if( $id > 0 ){
+                if(strpos($postData['url'],'/?c=') === false){
+                    $postData['url'] .= '/?c='.$urlObj->encrypt_url($id);
+                }
+                unset($postData['id']);
+                yield $this->getNavLogicInstance()->updateById($id,$postData);
+                $message = '编辑成功!';
+            }else{
+                $postData['addDate'] = time();
+                $insertId = yield $this->getNavLogicInstance()->saveData($postData);
+                $upDate['url'] = $postData['url'].'/?c='.$urlObj->encrypt_url($insertId);
+                yield $this->getNavLogicInstance()->updateById($insertId,$upDate);
+                $message = '添加成功!';
+            }
+            $msgData = ['code'=> '1', 'message' => $message];
+            $this->outputJson($msgData);
+        }catch(\Exception $e){
+            $msgData['message'] = $e->getMessage();
+            $this->outputJson($msgData);
+        }
     }
+
+    /**
+     * 删除数据
+     */
+    public function actionDel()
+    {
+        $idStr = $this->getContext()->getInput()->get('id');
+        $msgData = ['code'=> '-1','message' => ''];
+        try{
+            if(empty($idStr)){
+                throw new \Exception("参数错误", 1);
+            }
+            $idArr = explode(",",$idStr);
+            $ret =  yield $this->getNavLogicInstance()->batchDelByIdList($idArr);
+            if($ret == false){
+                throw new \Exception("删除失败", 1);
+            }
+            $msgData = ['code'=> '1','message' => '删除成功'];
+        }catch(\Exception $e){
+            $msgData['message'] = $e->getMessage();
+        }
+        $this->outputJson($msgData);
+    }
+
 
 }
+
 

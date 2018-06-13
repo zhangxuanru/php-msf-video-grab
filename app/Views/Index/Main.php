@@ -1,264 +1,170 @@
-<?php  $this->layout('Public/MainHeader',$staticOption ) ?>
- </head>
+﻿<?php  $this->insert('Public/Head',$staticOption); ?>
 <body>
-
-<script type="text/javascript">
-function metreturn(url){
-	if(url){
-		location.href=url;
-	}else if($.browser.msie){
-		history.go(-1);
-	}else{
-		history.go(-1);
-	}
-}
-</script>
-	<div class="metinfotop">
-	<div class="position">简体中文 > 快捷导航 > <a href="main.html">系统信息</a></div>
-	</div>
-	<div class="clear"></div>
-
-<script type="text/javascript">
-$("html",parent.document).find('.returnover').remove();
-</script>
-
-
-</div>
-<div class="sysadmin">
-	<div class="sysadmin_box_1">
-		<div class="sysadmin_box_cont">	
-			<h3>访问概况</h3>
-			<div class="boxcont" style="padding:0px;">
-<table cellpadding="0" cellspacing="1" class="stat_table">
-	<tr>
-		<td class="t" width="30">日期</td>
-		<td class="t" width="30">PV</td>
-		<td class="t" width="30">访客</td>
-		<td class="t" width="30">IP</td>
-		<td class="t" width="30">次数</td>
-	</tr>
-	<tr class="mouse">
-		<td class="t">今日</td>
-		<td>1</td>
-		<td>1</td>
-		<td>1</td>
-		<td>1</td>
-	</tr>
-	<tr class="mouse">
-		<td class="t">昨日</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-	</tr>
-	<tr class="mouse">
-		<td class="t">前日</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-	</tr>
-</table>
-			</div>
-		</div>
-	</div>
-	
-	
-	<div class="sysadmin_box_2">
-		<div class="sysadmin_box_cont">
-			<h3>内容信息</h3>
-			<table cellpadding="0" cellspacing="1" class="stat_table">
-				<tr class="mouse">
-					<td class="t" width="60">文章数量</td>
-					<td><a href="index.php/admin/news">1</a></td>
-				</tr>
-				<tr class="mouse">
-					<td class="t">在线留言</td>
-					<td><a href="index.php/admin/expand_book">4</a></td>
-				</tr>
-				<tr class="mouse">
-					<td class="t">友情链接</td>
-					<td><a href="index.php/admin/expand_link">4</a></td>
-				</tr>
-				<tr class="mouse">
-					<td class="t">会员注册</td>
-					<td><a href="index.php/admin/user">1</a></td>
-				</tr>
-			</table>
-		</div>
-	</div>
-	
-	
-	
-	<div class="sysadmin_box_3 none">
-		<div class="sysadmin_box_cont">
-			<h3>用户信息</h3>
-			<ul class="user">
-				<li><span>用户名：</span><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
-
-<h4>A PHP Error was encountered</h4>
-
-<p>Severity: Notice</p>
-<p>Message:  Undefined variable: adminuser</p>
-<p>Filename: views/main.php</p>
-<p>Line Number: 130</p>
-
-</div></li>
-				<li><span>登录次数：</span><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
-
-<h4>A PHP Error was encountered</h4>
-
-<p>Severity: Notice</p>
-<p>Message:  Undefined variable: loginhits</p>
-<p>Filename: views/main.php</p>
-<p>Line Number: 131</p>
-
-</div></li>
-				<li><span>IP：</span><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
-
-<h4>A PHP Error was encountered</h4>
-
-<p>Severity: Notice</p>
-<p>Message:  Undefined variable: loginip</p>
-<p>Filename: views/main.php</p>
-<p>Line Number: 132</p>
-
-</div></li>
-				<li><span>登录时间：</span><div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
-
-<h4>A PHP Error was encountered</h4>
-
-<p>Severity: Notice</p>
-<p>Message:  Undefined variable: logintime</p>
-<p>Filename: views/main.php</p>
-<p>Line Number: 133</p>
-
-</div></li>
-			</ul>
-		</div>
-	</div>
-	<div class="sysadmin_box_3">
-		<div class="sysadmin_box_cont">
-			<h3>Phpci新闻</h3>
-			<div class="text" id="newslist"></div>
-		</div>
-	</div>
-	<div class="clear"></div>
-	<div class="sysadmin_box_6">
-		<div class="sysadmin_box_cont">
-			<h3>商业授权</h3>
-
-
-		<div class="boxcont ">
-		<form method="POST" name="myform"  action="index.php/admin/home" target="_self">
-		    <input name="id" type="hidden" value="1">
-			<div class="authdivinput">
-				<input name="authpass" class="text nonull" placeholder="密钥" per="1" value="" />
-			</div>
-			<div class="authdivinput">
-				<textarea name="authcode" rows="5" class="textarea nonull" placeholder="授权码" per="1"></textarea>
-			</div>
-			<div class="authsubmit">
-				<input type="submit" name="Submit" value="录入" class="submit" onclick="return Smit($(this),'myform')" />
-				<a href="http://www.phpci.com" target="_blank" title="了解商业授权" style="color:#f00; position:relative; left:4px;">了解商业授权</a>
-			</div>
-        </form>
-			</div>
-		</div>
-	</div>
-	<div class="sysadmin_box_8">
-		<div class="sysadmin_box_cont">
-		<h3>服务器信息</h3>
-			<table cellpadding="0" cellspacing="1" class="stat_table">
-				<tr class="mouse">
-					<td class="t">程序名称</td>
-					<td colspan='2'>phpci</td>
-				</tr>
-				<tr class="mouse">
-					<td class="t">系统版本</td>
-					<td colspan='2'>phpci 6.0.0 <font style="color:#390; padding-left:15px;">已是最新版本</font></td>
-				</tr>
-				<tr class="mouse">
-					<td class="t">操作系统</td>
-					<td colspan='2'>Windows XP (SP2)</td>
-				</tr>
-				<tr class="mouse">
-					<td class="t">PHP | Mysql</td>
-					<td>Apache/2.2.17 (Win32) PHP/5.3.3</td>
-					<td>5.5.8-log</td>
-				</tr>
-				<tr class="mouse">
-					<td class="t">版权所有</td>
-					<td colspan='2'>小阳 QQ:357058607 <a href="http://wpa.qq.com/msgrd?v=3&uin=357058607&site=qq&menu=yes" target="_blank">
-<img border="0" title="点击这里给我发消息" alt="点击这里给我发消息" src="http://wpa.qq.com/pa?p=2:357058607:47"></a></td>
-				</tr>
-				<tr class="mouse">
-					<td class="t">在线升级</td>
-					<td colspan='2'>
-					<span id="oltest_cms" style="padding:0px; font-size:100%; color:#390;"><a id="updatenow" >检测更新</a></span>
-
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
-	<div class="clear"></div>
-
-	<div class="clear"></div>
-	<div class="sysadmin_box_7">
-		<div class="sysadmin_box_cont">
-			<h3>服务与支持</h3>
-			<div class="bangzhu">
-				<ul>
-				<li class="d"><a href="http://www.phpci.com" target="_blank">使用手册</a></li>
-				<li class="to"><a href="http://www.phpci.com" target="_blank">商业授权</a></li>
-				<li class="d"><a href="http://www.phpci.com" target="_blank">交流论坛</a></li>
-				<li class="to"><a href="http://www.phpci.com" target="_blank">收费模板</a></li>
-				<li class="d"><a href="http://www.phpci.com" target="_blank">官方网站</a></li>
-				<li class="to"><a href="http://www.phpci.com" target="_blank">专用主机</a></li>
-				<li class="d"><a href="mailto:357058607@qq.com">357058607@qq.com</a></li>
-				<li class="to"><a href="http://www.phpci.com" target="_blank">定制开发</a></li>
-				
-				</ul>
-				<div class="clear"></div>
-			</div>
-		</div>
-	</div>
-	<div class="clear"></div>
+<div class="page-container">
+	<p class="f-20 text-success">欢迎使用H-ui.admin <span class="f-14">v3.1</span>后台模版！</p>
+	<p>登录次数：18 </p>
+	<p>上次登录IP：222.35.131.79.1  上次登录时间：2014-6-14 11:19:55</p>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">信息统计</th>
+			</tr>
+			<tr class="text-c">
+				<th>统计</th>
+				<th>资讯库</th>
+				<th>图片库</th>
+				<th>产品库</th>
+				<th>用户</th>
+				<th>管理员</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c">
+				<td>总数</td>
+				<td>92</td>
+				<td>9</td>
+				<td>0</td>
+				<td>8</td>
+				<td>20</td>
+			</tr>
+			<tr class="text-c">
+				<td>今日</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			<tr class="text-c">
+				<td>昨日</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			<tr class="text-c">
+				<td>本周</td>
+				<td>2</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			<tr class="text-c">
+				<td>本月</td>
+				<td>2</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table table-border table-bordered table-bg mt-20">
+		<thead>
+			<tr>
+				<th colspan="2" scope="col">服务器信息</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th width="30%">服务器计算机名</th>
+				<td><span id="lbServerName">http://127.0.0.1/</span></td>
+			</tr>
+			<tr>
+				<td>服务器IP地址</td>
+				<td>192.168.1.1</td>
+			</tr>
+			<tr>
+				<td>服务器域名</td>
+				<td>www.h-ui.net</td>
+			</tr>
+			<tr>
+				<td>服务器端口 </td>
+				<td>80</td>
+			</tr>
+			<tr>
+				<td>服务器IIS版本 </td>
+				<td>Microsoft-IIS/6.0</td>
+			</tr>
+			<tr>
+				<td>本文件所在文件夹 </td>
+				<td>D:\WebSite\HanXiPuTai.com\XinYiCMS.Web\</td>
+			</tr>
+			<tr>
+				<td>服务器操作系统 </td>
+				<td>Microsoft Windows NT 5.2.3790 Service Pack 2</td>
+			</tr>
+			<tr>
+				<td>系统所在文件夹 </td>
+				<td>C:\WINDOWS\system32</td>
+			</tr>
+			<tr>
+				<td>服务器脚本超时时间 </td>
+				<td>30000秒</td>
+			</tr>
+			<tr>
+				<td>服务器的语言种类 </td>
+				<td>Chinese (People's Republic of China)</td>
+			</tr>
+			<tr>
+				<td>.NET Framework 版本 </td>
+				<td>2.050727.3655</td>
+			</tr>
+			<tr>
+				<td>服务器当前时间 </td>
+				<td>2014-6-14 12:06:23</td>
+			</tr>
+			<tr>
+				<td>服务器IE版本 </td>
+				<td>6.0000</td>
+			</tr>
+			<tr>
+				<td>服务器上次启动到现在已运行 </td>
+				<td>7210分钟</td>
+			</tr>
+			<tr>
+				<td>逻辑驱动器 </td>
+				<td>C:\D:\</td>
+			</tr>
+			<tr>
+				<td>CPU 总数 </td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>CPU 类型 </td>
+				<td>x86 Family 6 Model 42 Stepping 1, GenuineIntel</td>
+			</tr>
+			<tr>
+				<td>虚拟内存 </td>
+				<td>52480M</td>
+			</tr>
+			<tr>
+				<td>当前程序占用内存 </td>
+				<td>3.29M</td>
+			</tr>
+			<tr>
+				<td>Asp.net所占内存 </td>
+				<td>51.46M</td>
+			</tr>
+			<tr>
+				<td>当前Session数量 </td>
+				<td>8</td>
+			</tr>
+			<tr>
+				<td>当前SessionID </td>
+				<td>gznhpwmp34004345jz2q3l45</td>
+			</tr>
+			<tr>
+				<td>当前系统用户名 </td>
+				<td>NETWORK SERVICE</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 
-<?php $this->insert('Public/Footer',$staticOption ) ?>
-
-
-<script type="text/javascript">
-//metgetdata('#newslist','http://www.metinfo.cn/metv5news.php?fromurl=&action=json');
-function metHeight(group){
-	tallest=0;
-	group.each(function(){
-		thisHeight=jQuery(this).height();
-		if(thisHeight>tallest){
-			tallest=thisHeight;
-		}
-	});
-	group.height(tallest);
-}
-
-$(document).ready(function(){
-	var autbox = $(".sysadmin_box_6 .boxcont");
-	var fubox = $(".sysadmin_box_8 .stat_table");
-	if(autbox.size()>0){
-		var nhh = autbox.height()+12;
-		if(fubox.height()<nhh){
-			fubox.height(nhh);
-		}else{
-			autbox.height(fubox.height()-12);
-		}
-	}
-	var group1 = $(".sysadmin_box_1 .stat_table,.sysadmin_box_2 .stat_table");
-	metHeight(group1);
-	ifreme_methei();
-});
-</script>
+ <?php $this->insert('Public/Footer',$staticOption); ?>
 
 </body>
 </html>

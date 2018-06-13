@@ -1,49 +1,139 @@
-<?php  $this->layout('Public/MainHeader',$staticOption ) ?>
-</head>
+<?php  $this->insert('Public/Head',$staticOption); ?>
 <body>
-<div class="metinfotop">
-        <div class="position">内容管理 > <a href="content.html">视频模块</a> > <a href='news.html'>分类管理 </a></div>
-</div>
-<div class="clear"></div>
-    <div class="v52fmbx_tbmax">
-        <div class="v52fmbx_tbbox">
-            <div class="clear"></div>
-            <table cellpadding="2" cellspacing="1" class="table">
-                <tr>
-                    <td colspan="8" class="centle" style=" height:20px; line-height:30px; font-weight:normal; padding-left:10px;">
-                        <div style="float:left;">
-                            <a href="news_add.html">+新增</a>
-                            <span style="font-weight:normal; color:#999; padding-left:10px;">排序数值越大越靠前</span>
-                        </div>
-                    </td>
-                </tr>
-                <tr id="list-top">
-                    <td width="30" class="list">选择</td>
-                    <td width="250" class="list list_left">分类名称</td>
-                    <td width="80" class="list">添加时间</td>
-                    <td width="70" class="list" style="padding:0px; text-align:center;">操作</td>
-                </tr>
-                <tr class="mouse click">
-                    <td class="list-text">
-                        <input name='id[]' type='checkbox' id="id" value='30' />
-                        <input name="data[id][]" type="hidden" value="30" />
-                    </td>
-                    <td class="list-text alignleft">&nbsp;&nbsp;<a href="show-30" title='预览：测试' target="_blank">测试</a></td>
-                      <td class="list-text color999">2014-11-27 15:40:25</td>
-                     <td class="list-text">
-                        <a href="news_edit.html">编辑</a>&nbsp;&nbsp;
-                        <a href="javascript:;" onclick="{if(confirm('确定删除吗?')){window.location='index.php/admin/news/del?id=30&page=1';return true;}return false;}">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="all"><input name="chkAll" type="checkbox" id="chkAll" onclick=CheckAll(this.form) value="checkbox" /></td>
-                    <td class="all-submit" colspan="7" style="padding:5px;">
-                       <input type='submit' value='删除' class="submit li-submit" onclick="{if(confirm('确定删除吗?')){document.myform.action='index.php/admin/news/delsome?&page=1';return true;}return false;}" />
-                    </td>
-                </tr>
-            </table>
-        </div>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <a href="/"> 首页</a> <span class="c-gray en">&gt;</span> <a href="/">分类管理</a> <span class="c-gray en">&gt;</span> 分类列表 <?php if($id > 0){ ?><span class="c-gray en">&gt;</span> 子分类列表 <?php } ?><a class=" btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont btn-refresh">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <div class="cl pd-5 bg-1 bk-gray mt-20">
+       <span class="l">
+           <a href="javascript:;" onclick="datadel('cate')" class="btn btn-danger radius delAll"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+           <a href="javascript:;" onclick="cate_add('添加分类','/cate/add','','510')"  class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加分类</a>
+       </span>
     </div>
-	 <?php $this->insert('Public/Footer',$staticOption ) ?>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+            <tr class="text-c">
+                <th width="25"><input type="checkbox" name="select-all" value="0" id="select-all"></th>
+                <th width="100">分类名称</th>
+                <th width="100">视频总数</th>
+                <th width="100">分类总数</th>
+                <th width="60">是否显示</th>
+                <th width="50">排序</th>
+                <th width="50">添加时间</th>
+                <th width="100">操作</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<?php $this->insert('Public/Footer',$staticOption); ?>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function() {
+        refreshDataTable();
+    })
+
+    /**
+     * 删除事件
+     * @param id
+     */
+  function del(id){
+        layer.confirm('确认要删除吗？', function () {
+            $.ajax({
+                type: 'POST',
+                url: '/cate/del/?id='+id,
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg(data.message, {icon: 1, time: 1000});
+                    $(".table-sort").dataTable().fnDraw(true);
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+    }
+
+    /*-添加--弹窗*/
+    function cate_add(title,url,w,h){
+        layer_show(title,url,w,h);
+    }
+
+    /**
+     * dataselect 列表函数
+     */
+    function refreshDataTable() {
+        var url = '/cate/index/?id=<?php echo $id; ?>';
+        var table = $('.table-sort').DataTable({
+            "aaSorting": [[ 0, "desc" ]],//默认第几个排序
+            "sPaginationType": "full_numbers",
+            "bPaginite": true,
+            "bInfo": true,
+            "bSort": true,
+            "processing": false,
+            "serverSide": true,
+            "searching" : false, //去掉搜索框方法一
+            "sAjaxSource": url,//这个是请求的地址
+            "fnServerData": retrieveData,
+            "aoColumns" : [//初始化要显示的列
+                {
+                    "mDataProp" : "id",//获取列数据，跟服务器返回字段一致
+                    "sClass" : "center",//显示样式
+                    "mRender" : function(data, type, full) {
+                        return "<label><input type='checkbox' class='ace checkbox_select' name='chkId' value='"+data+"' /><span class='lbl'></span></label>"
+                    }
+                },
+                {
+                    "mDataProp" : "category_name",
+                    "mRender" : function(data, type, full) {
+                        var fid = full.id;
+                        if(full.pid == '0'){
+                          return `<a href="/cate/index/?id=${fid}" />${data}</a> `;
+                        }else{
+                            return data;
+                        }
+                    }
+                },
+                {
+                    "mDataProp" : "video_count"
+                },
+                {
+                    "mDataProp" : "cat_count"
+                },
+                {
+                    "mDataProp" : "is_display",
+                    "mRender" : function(data, type, full) {
+                        return (data == '1') ? '是' : '否';
+                    }
+                },
+//                {
+//                    "mDataProp" : "type"
+//                },
+                {
+                    "mDataProp" : "sort"
+                },
+                {
+                    "mDataProp" : "addDate"
+                },
+                {
+                    "mDataProp" : "pid",
+                    "sClass" : "center",//显示样式
+                    "mRender" : function(data, type, full) {
+                        var fid = full.id;
+                        return `<a onclick="cate_add('修改分类','/cate/add/?id=${fid}','','510')"/>编辑</a> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href='javascript:;' data-id='"+full.id+"' class='del' onclick='del(${fid})' />删除</a>`;
+                    }
+                }
+            ],
+            "aoColumnDefs": [
+//        //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                {"orderable":false,"aTargets":[0,1,2,3]}// 制定列不参与排序
+            ]
+        });
+    };
+
+</script>
 </body>
 </html>

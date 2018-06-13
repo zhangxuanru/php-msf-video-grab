@@ -1,145 +1,194 @@
-<?php  $this->layout('Public/MainHeader',$staticOption ) ?> 
-</head>
+<?php  $this->insert('Public/Head',$staticOption); ?> 
 <body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <a href="/">首页</a> <span class="c-gray en">&gt;</span> <a href="/">抓取管理</a> <span class="c-gray en">&gt;</span> 抓取列表 <a class=" btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont btn-refresh">&#xe68f;</i></a></nav>
+<div class="page-container">
+  <div class="text-c">
+    视频分类:<span class="select-box inline">
+		     <select name="videoType" id="videoType" class="select">
+                 <option value="0">--全部--</option>
+                <?php foreach($videotype as $key => $val){ ?>
+                    <option value="<?php echo $val['id']; ?>"><?php echo $val['type']; ?></option>
+                 <?php } ?>
+           </select>
+      </span>
+      抓取地址: <input type="text" class="input-text" style="width:250px" placeholder="输入抓取地址" id="grab_address" name="grab_address">
+    <button type="submit" class="btn btn-success radius" id="btn-search" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+  </div>
+  <div class="cl pd-5 bg-1 bk-gray mt-20">
+       <span class="l">
+           <a href="javascript:;" onclick="datadel('grap')" class="btn btn-danger radius delAll"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+           <a href="javascript:;" onclick="grab_add('添加抓取任务','/grab/add','','510')"  class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加抓取事件</a>
+       </span>
+  </div>
+  <div class="mt-20">
+  <table class="table table-border table-bordered table-hover table-bg table-sort">
+    <thead>
+      <tr class="text-c">
+        <th width="25"><input type="checkbox" name="select-all" value="0" id="select-all"></th>
+        <th width="120">抓取说明</th>
+        <th width="60">视频类别</th>
+        <th width="50">分类</th>
+        <th width="70">类型</th>
+        <th width="210">抓取地址</th>
+        <th width="60">当前状态</th>
+        <th width="50">成功数</th>
+        <th width="50">失败数</th>
+        <th width="110">最后执行时间</th>
+        <th width="100">操作</th>
+      </tr>
+    </thead>
+  </table>
+  </div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+ <?php $this->insert('Public/Footer',$staticOption); ?>
+</body>
+</html>
 
 <script type="text/javascript">
-function metreturn(url){
-	if(url){
-		location.href=url;
-	}else if($.browser.msie){
-		history.go(-1);
-	}else{
-		history.go(-1);
-	}
+$(function() {
+    refreshDataTable();
+    /**
+     * 搜索事件
+     */
+    $("#btn-search").click(function () {
+        $(".table-sort").dataTable().fnDestroy();
+        refreshDataTable();
+    });
+})
+
+/**
+ * 执行事件
+ * @param id
+ */
+function execData(id,type){
+    layer.confirm('确认要执行吗？', function () {
+        $.ajax({
+            type: 'POST',
+            url: '/grab/implement',
+            data: {'id': id, 'type': type},
+            dataType: 'json',
+            success: function (data) {
+                layer.msg(data.msg, {icon: 1, time: 1000});
+                $(".table-sort").dataTable().fnDraw(true);
+            },
+            error: function (data) {
+                console.log(data.msg);
+            },
+        });
+    });
 }
-</script>
-	<div class="metinfotop">
-
-	<div class="position">简体中文 > 内容管理 > <a href="content.html">内容管理</a> > <a href='/grab'>抓取管理</a></div>
 
 
-	<div class="return"><a href="javascript:;" onClick="location.href='javascript:history.go(-1)'">&lt;&lt;返回</a></div>
 
-	</div>
-	<div class="clear"></div>
+/**
+ * 删除事件
+ * @param id
+ */
+function delData(id) {
+    layer.confirm('确认要删除吗？', function () {
+        $.ajax({
+            type: 'POST',
+            url: '/grab/del/?id=' + id,
+            dataType: 'json',
+            success: function (data) {
+                layer.msg(data.message, {icon: 1, time: 1000});
+                $(".table-sort").dataTable().fnDraw(true);
+            },
+            error: function (data) {
+                console.log(data.msg);
+            },
+        });
+    });
+}
 
-	
-</div>
+/*-添加--弹窗*/
+function grab_add(title,url,w,h){
+    layer_show(title,url,w,h);
+}
 
-<div class="v52fmbx_tbmax">
-<div class="v52fmbx_tbbox">
-		
-<div class="clear"></div>
-	
-	<table cellpadding="2" cellspacing="1" class="table">
-		<tr>
-			<td colspan="8" class="centle" style=" height:20px; line-height:30px; font-weight:normal; padding-left:10px;">
-				<div style="float:left;">
-				<a href="/grab/add">+新增</a>
-				<span style="font-weight:normal; color:#999; padding-left:10px;">排序数值越大越靠前</span>
-				</div>
-				<div class="formright">
-				
-				<form method="POST" name="search" action="index.php/admin/video/index" target="_self">
-				
-					<select name="new" id="new" onChange="changes($(this));">
-						<option value="index.php/admin/video/index">所属栏目</option>
-												<option value="index.php/admin/video/index?cid=75" >客片欣赏</option>
-											</select>
-	
-					<input name="keyword" type="text" class="text100" value="" />				
-					<input type="submit" name="searchsubmit" value="搜索" class="bnt_pinyin"/>
-				</form>
-				</div>
-			</td>
-		</tr>
-              <tr id="list-top">
-                <td width="30" class="list">选择</td>
-                <td width="250" class="list list_left">标题</td>
-                <td width="30" class="list" >推荐</td>
-				<td width="30" class="list" >置顶</td>
-                <td width="30" class="list" >状态</td>
-                <td width="60" class="list" >更新时间</td>	
-				<td width="70" style="padding:0px; text-align:center;" class="list" >访问次数</td>
-	            <td width="70" class="list" style="padding:0px; text-align:center;">操作</td>
-              </tr>
-			  <form name="myform" method="post" id="myform" action="index.php/admin/video/move?&page=1">
-                            <tr class="mouse click">
-                <td class="list-text">
-				<input name='id[]' type='checkbox' id="id" value='32' />
-				<input name="data[id][]" type="hidden"  value="32" />
-				</td>
-			    <td class="list-text alignleft">&nbsp;&nbsp;<a href="show-32" title='预览：测试' target="_blank">测试</a></td>
-				<td class="list-text"><a href="index.php/admin/video/doset?act=isnice&id=32&&page=1"><img src="<?php echo $static_url; ?>/statics/base/images/ok_0.gif"></a></td>	
-				<td class="list-text"><a href="index.php/admin/video/doset?act=istop&id=32&&page=1"><img src="<?php echo $static_url; ?>/statics/base/images/ok_0.gif"></a></td>
-				<td class="list-text"><a href="index.php/admin/video/doset?act=nostatus&id=32&&page=1"><img src="<?php echo $static_url; ?>/statics/base/images/ok_1.gif"></a></td>
-                <td class="list-text color999">2015-03-10 16:38:08</td>
-				<td class="list-text color999">0</td>
-				<td class="list-text">
-					<a href="video_edit.html">编辑</a>&nbsp;&nbsp;
-					<a href="javascript:;" onclick="{if(confirm('确定删除吗?')){window.location='index.php/admin/video/del?id=32&&page=1';return true;}return false;}">删除</a></td>	
-              </tr>
-                      
-   	   <tr> 
-            <td class="all"><input name="chkAll" type="checkbox" id="chkAll" onclick=CheckAll(this.form) value="checkbox"></td>
-			 <td class="all-submit" colspan="7" style="padding:5px;">
-				 <input type='submit' value='删除' class="submit li-submit" onclick="{if(confirm('确定删除吗?')){document.myform.action='index.php/admin/video/delsome?&page=1';return true;}return false;}"/>
-				 
-			<div class="li-submit">
-				<select name="cid" id="is_move">
-					<option value="">移动至...</option>
-										<option value="75">客片欣赏</option>
-									</select>
-			 </div>
-			  </td>
-          </tr>
-		</form>
-		<tr>
-		<td colspan="8" class="page_list">
-		<form method='POST' action='index.php/admin/video/index?&page=1'>
-		<style>.digg4 a{ border:1px solid #ccdbe4; padding:2px 8px 2px 8px; background:#fff; background-position:50%; margin:2px; color:#666; text-decoration:none;}
-		.digg4 a:hover { border:1px solid #999; color:#fff; background-color:#999;}
-		.digg4 a:active {border:1px solid #000099; color:#000000;}
-		.digg4 span.current { padding:2px 8px 2px 8px; margin:2px; text-decoration:none;}
-		.digg4 span.disabled { border:1px solid #ccc; background:#fff; padding:1px 8px 1px 8px; margin:2px; color:#999;}
-       </style>
-		<div class='digg4'>
-		 <span class="disabled" style="font-family: Tahoma, Verdana;"><b>«</b></span><span class="disabled" style="font-family: Tahoma, Verdana;">‹</span><span class="current">1</span><span class="disabled" style="font-family: Tahoma, Verdana;">›</span><span class="disabled" style="font-family: Tahoma, Verdana;"><b>»</b></span>  共1条 		 转到
-		 <input name='page' class='page_input' value="1" />页 
-		 <input type='submit' value=' go ' class="bnt_pinyin"/>
-		 </form>
-		</div>
-		</td></tr>
-</table>
-</div>
-</div>
+/**
+ * dataselect 列表函数
+ */
+function refreshDataTable() {
+    var url = '/grab/index';
+    var grab_address = $("#grab_address").val();
+    var videoType = $("#videoType").val();
+    if(typeof(grab_address) == 'undefined'){
+        grab_address = '';
+    }
+    if(typeof(videoType) == 'undefined'){
+        videoType = '';
+    }
+    url += "/?grab_address="+grab_address+"&videoType="+videoType;
+    var table = $('.table-sort').DataTable({
+        "aaSorting": [[ 0, "desc" ]],//默认第几个排序
+        "sPaginationType": "full_numbers",
+        "bPaginite": true,
+        "bInfo": true,
+        "bSort": true,
+        "processing": false,
+        "serverSide": true,
+        "searching" : false, //去掉搜索框方法一
+        "sAjaxSource": url,//这个是请求的地址
+        "fnServerData": retrieveData,
+//            "columns": [
+//                { "data": "id" },
+//                { "data": "user_id" },
+//                { "data": "channelId" },
+//                { "data": "fail_number" },
+//                { "data": "grab_title" }
+//            ]
 
-<?php $this->insert('Public/Footer',$staticOption ) ?>
+        "aoColumns" : [//初始化要显示的列
+            {
+                "mDataProp" : "id",//获取列数据，跟服务器返回字段一致
+                "sClass" : "center",//显示样式
+                "mRender" : function(data, type, full) {
+                    return "<label><input type='checkbox' class='ace checkbox_select' name='chkId' value='"+data+"' /><span class='lbl'></span></label>"
+                }
+            },
+            {
+                "mDataProp" : "grab_title"
+            },
+            {
+                "mDataProp" : "videoTypeName"
+            },
+            {
+                "mDataProp" : "category"
+            },
+            {
+                "mDataProp" : "typeName"
+            },
+            {
+                "mDataProp" : "grab_address",
+                "mRender" : function(data, type, full) {
+                    return "<a href='"+data+"' target='_blank' />"+data+"</a>"
+                }
+            },
+            {
+                "mDataProp" : "statusText"
+            },
+            {
+                "mDataProp" : "success_number"
+            },
+            {
+                "mDataProp" : "fail_number"
+            },
+            {
+                "mDataProp" : "exec_date"
+            },
+            {
+                "mDataProp" : "operation"
+            }
+        ],
+        "aoColumnDefs": [
+//        //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+          {"orderable":false,"aTargets":[0,1,10]}// 制定列不参与排序
+      ]
+    });
+};
 
-
-<script type="text/javascript">
-$(function() { 
-	$("#is_move").change( function() {
-		var cid = $('#is_move').val();
-		var arrchk = $("input[id='id']:checked");
-		var idarr="";
-		$(arrchk).each(function(){
-			if (idarr=="") {
-				idarr+=this.value
-			} else {
-				idarr+=","+this.value
-			}                   
-		}); 
-		if (idarr=='') {
-		    alert('请选择要移动的文章！');
-			return false;
-		}
-		if (confirm('确定移动吗?')) {
-		    document.myform.submit();
-		}
-	});
-});
-
-</script>
+</script> 
 </body>
 </html>

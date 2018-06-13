@@ -1,146 +1,119 @@
-<?php  $this->layout('Public/Header',$staticOption ) ?>
-<body id="indexid">
-<div id="metcmsbox">
-<div id="top"> 
-	<div class="topnbox" style="width: 99%;">
-    <div class="floatr">
-		<div class="top-r-box">
-		<div class="top-right-boxr">
-			<div class="top-r-t">
-				<ol class="rnav">
-					<li class="list">您好 <a href="index.php/admin/home/pwd" id="mydata" target="main" title="编辑 admin" class='tui'>admin</a></li>
-					<li class="line">|</li>
-					<li class="list"><a target="_top" onclick="{if(confirm('确定退出吗?')){window.location='index.php/admin/login/loginout';return true;}return false;}" href="javascript:;" id="outhome" title="退出" class='tui'>退出</a></li>
-					<li class="line">|</li>
-					<li class="list"><a href="javascript:;" id="kzqie" title="切换到窄版">窄版</a></li>
-                    <li id="langcig" class="list langli">
-					    <a id="cache" href="#">清理缓存</a>
-						<span>|</span>
-						<a href="index.php/admin/api_login/qq_login" target="_blank">绑定QQ</a>						<div class="langlist" style="display:none;"></div>
-					</li>
-					
-
-				</ol>
-				<div class="clear"></div>
-			</div>
-		</div>
-		<div></div>
-		<div class="nav">
-            <ul id="topnav">
-                                <li id="metnav_1" class="list">
-					<a href="javascript:;" id="nav_1" class="onnav" hidefocus="true">
-					<span class="c1"></span>
-					<p>快捷导航</p>
-					</a>
-				</li>
-				                <li id="metnav_10" class="list">
-					<a href="javascript:;" id="nav_10"  hidefocus="true">
-					<span class="c2"></span>
-					<p>内容管理</p>
-					</a>
-				</li>
-				                <li id="metnav_37" class="list">
-					<a href="javascript:;" id="nav_37"  hidefocus="true">
-					<span class="c3"></span>
-					<p>优化推广</p>
-					</a>
-				</li>    
-				                <li id="metnav_20" class="list">
-					<a href="javascript:;" id="nav_20"  hidefocus="true">
-					<span class="c5"></span>
-					<p>网站设置</p>
-					</a>
-				</li>
-				
-            </ul>
-		</div>
-		</div>
-    </div>
-    <div class="floatl">
-	    <a href="" hidefocus="true" id="met_logo"><img src="<?php echo $static_url; ?>/statics/base/images/logoen.gif" alt="phpci企业网站管理系统" title="phpci企业网站管理系统" /></a>
+<?php  $this->insert('Public/Head',$staticOption); ?>
+<body> 
+   <?php $this->insert('Public/Header',$assignData); ?>
+ <aside class="Hui-aside">
+	<div class="menu_dropdown bk_2">
+		<dl id="menu-article">
+			<dt><i class="Hui-iconfont">&#xe616;</i> 视频管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/video/" data-title="视频管理" href="javascript:void(0)">视频管理</a></li>
+					<li><a data-href="/video/" data-title="视频合并" href="javascript:void(0)">视频合并</a></li>
+					<li><a data-href="/video/" data-title="视频处理" href="javascript:void(0)">视频处理</a></li>
+			</ul>
+		</dd>
+	</dl>
+		<dl id="menu-picture">
+			<dt><i class="Hui-iconfont">&#xe613;</i> 分类管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/cate/" data-title="分类列表" href="javascript:void(0)">分类列表</a></li>
+			</ul>
+		</dd>
+	</dl>
+		<dl id="menu-product">
+			<dt><i class="Hui-iconfont">&#xe620;</i> 抓取管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/grab/index" data-title="抓取列表" href="javascript:void(0)">抓取列表</a></li> 
+			</ul>
+		</dd>
+	</dl>
+		<dl id="menu-comments">
+			<dt><i class="Hui-iconfont">&#xe622;</i> 评论管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="http://h-ui.duoshuo.com/admin/" data-title="评论列表" href="javascript:;">评论列表</a></li>
+					<li><a data-href="feedback-list.html" data-title="意见反馈" href="javascript:void(0)">意见反馈</a></li>
+			</ul>
+		</dd>
+	</dl>
+		<dl id="menu-member">
+			<dt><i class="Hui-iconfont">&#xe60d;</i> 会员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="member-list.html" data-title="会员列表" href="javascript:;">会员列表</a></li>
+					<li><a data-href="member-del.html" data-title="删除的会员" href="javascript:;">删除的会员</a></li>
+					<li><a data-href="member-level.html" data-title="等级管理" href="javascript:;">等级管理</a></li>
+					<li><a data-href="member-scoreoperation.html" data-title="积分管理" href="javascript:;">积分管理</a></li>
+					<li><a data-href="member-record-browse.html" data-title="浏览记录" href="javascript:void(0)">浏览记录</a></li>
+					<li><a data-href="member-record-download.html" data-title="下载记录" href="javascript:void(0)">下载记录</a></li>
+					<li><a data-href="member-record-share.html" data-title="分享记录" href="javascript:void(0)">分享记录</a></li>
+			</ul>
+		</dd>
+	</dl>
+		<dl id="menu-admin">
+			<dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/user/" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
+			</ul>
+		</dd>
+	</dl>
+		<dl id="menu-tongji">
+			<dt><i class="Hui-iconfont">&#xe61a;</i> 系统统计<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="charts-1.html" data-title="折线图" href="javascript:void(0)">折线图</a></li>
+					<li><a data-href="charts-2.html" data-title="时间轴折线图" href="javascript:void(0)">时间轴折线图</a></li>
+					<li><a data-href="charts-3.html" data-title="区域图" href="javascript:void(0)">区域图</a></li>
+					<li><a data-href="charts-4.html" data-title="柱状图" href="javascript:void(0)">柱状图</a></li>
+					<li><a data-href="charts-5.html" data-title="饼状图" href="javascript:void(0)">饼状图</a></li>
+					<li><a data-href="charts-6.html" data-title="3D柱状图" href="javascript:void(0)">3D柱状图</a></li>
+					<li><a data-href="charts-7.html" data-title="3D饼状图" href="javascript:void(0)">3D饼状图</a></li>
+			</ul>
+		</dd>
+	</dl>
+		<dl id="menu-system">
+			<dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+ 					<li><a data-href="/nav/" data-title="栏目管理" href="javascript:void(0)">栏目管理</a></li>
+					<li><a data-href="/system/log" data-title="系统日志" href="javascript:void(0)">系统日志</a></li>
+			</ul>
+		</dd>
+	</dl>
+</div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+<section class="Hui-article-box">
+	<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
+		<div class="Hui-tabNav-wp">
+			<ul id="min_title_list" class="acrossTab cl">
+				<li class="active">
+					<span title="我的桌面" data-href="/index/main">我的桌面</span>
+					<em></em></li>
+		</ul>
 	</div>
+		<div class="Hui-tabNav-more btn-group"><a id="js-tabNav-prev" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d4;</i></a><a id="js-tabNav-next" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d7;</i></a></div>
+</div>
+	<div id="iframe_box" class="Hui-article">
+		<div class="show_iframe">
+			<div style="display:none" class="loading"></div>
+			<iframe scrolling="yes" frameborder="0" src="/index/main"></iframe>
 	</div>
 </div>
-<div id="content" style="width: 99%;">
-    <div class="floatl" id="metleft">
-		<div class="floatl_box">
-	    <div class="nav_list" id="leftnav">
-			<div class="fast">
-				<a target="_blank" href="" id="qthome" title="网站首页">网站首页</a>
-			</div>
-                        <ul  id="ul_1">
-										<li><a href="/index/main" id="nav_1_2" target="main" class="on" title="系统信息" hidefocus="true">系统信息</a></li>
-  			           </ul>
-                        <ul style="display:none;" id="ul_10">
-										<li ><a href="/index/content" id="nav_10_58" target="main"  title="内容管理" hidefocus="true">内容管理</a></li>
+</section>
 
-			       					<li ><a href="/index/recycle" id="nav_10_59" target="main"  title="内容回收站" hidefocus="true">内容回收站</a></li>
-			       			</ul>
-                        <ul style="display:none;" id="ul_37">
-									 
-			       					<li ><a href="/expand/" id="nav_37_13" target="main"  title="友情链接" hidefocus="true">友情链接</a></li>
-			       					<li ><a href="/expand/add" id="nav_37_63" target="main"  title="站内广告" hidefocus="true">站内广告</a></li>
-			       					 
-			       			</ul>
-                        
-                        <ul style="display:none;" id="ul_20">
- 			       					<li ><a href="/user/admin" id="nav_20_5" target="main"  title="管理员管理" hidefocus="true">管理员管理</a></li>
-			       					<li ><a href="/expand/backup" id="nav_20_35" target="main"  title="数据备份" hidefocus="true">数据备份</a></li>
-			       			</ul>
-
-
-			       			    <ul style="display:none;" id="ul_51">
-										<li ><a href="/video" id="nav_51_58" target="main"  title="内容管理" hidefocus="true">视频列表</a></li>
-			       					 
-			       					<li ><a href="/cate" id="nav_51_59" target="main"  title="分类管理" hidefocus="true">分类管理</a></li>
-
-			       					<li ><a href="/cate" id="nav_51_60" target="main"  title="标签管理" hidefocus="true">标签管理</a></li>
-
-			       					<li ><a href="/comment" id="nav_51_60" target="main"  title="标签管理" hidefocus="true">评论管理</a></li>
-			       			</ul>
-
-
-			       				    <ul style="display:none;" id="ul_52">
-										<li ><a href="/user" id="nav_52_58" target="main"  title="内容管理" hidefocus="true">会员列表</a></li>
-			       					 
-			       					<li ><a href="/user/" id="nav_52_59" target="main"  title="分类管理" hidefocus="true">下载需求列表</a></li> 
-			       			</ul>
-
-
-			       				    <ul style="display:none;" id="ul_53">
-										<li ><a href="/user" id="nav_53_58" target="main"  title="内容管理" hidefocus="true">评论列表</a></li>
-			       					 
-			       					<li ><a href="/user/" id="nav_53_59" target="main"  title="分类管理" hidefocus="true">添加评论</a></li> 
-			       			</ul>
-
-             
-
-	    </div>
-		<div class="claer"></div>
-	
-		<div class="left_footer"><div class="left_footer_box"><a href="http://www.phpci.com" target="_blank">我要提建议</a></div></div>
-		
-		</div>
-	</div>
-    <div class="floatr" id="metright">
-        <div class="iframe">
-		    <div class="min"><iframe frameborder="0" id="main" name="main" src="/index/main" scrolling="no"></iframe></div>
-		</div>
-    </div>
-	<div class="clear"></div>
-	</div>
+<div class="contextMenu" id="Huiadminmenu">
+	<ul>
+		<li id="closethis">关闭当前 </li>
+		<li id="closeall">关闭全部 </li>
+</ul>
 </div>
-
-<script src="<?php echo $static_url; ?>/statics/base/js/metinfo.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-	function showLeftNav(idName)
-	{
-		$("#leftnav").find('ul').hide();
-		var id = "ul_"+idName;
-		$("#"+id).show();
-	}
-</script>
-<?php $this->insert('Public/Footer',$staticOption ) ?>
+<!--_footer 作为公共模版分离出去--> 
+<?php $this->insert('Public/Footer',$staticOption); ?>
+</body>
+</html>
 
 

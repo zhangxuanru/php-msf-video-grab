@@ -11,41 +11,14 @@ namespace App\Controllers;
 class Index extends Base
 {
     public function actionIndex()
-    {
-         $this->display();
+    { 
+        $this->display();
     }
 
    public function actionMain()
    {
       $this->display();
    }
-
-   public function actionContent()
-   {
-       $this->display();
-   }
- 
-   public function actionNav()
-   {
-      $this->display();
-   }
-   public function actionRecycle()
-   {
-      $this->display();
-   }
-
-
-  
-  
-
-
-    /**
-     * 销毁,解除引用
-     */
-    public function destroy()
-    {
-
-    }
 
 }
 

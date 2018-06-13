@@ -1,207 +1,173 @@
-<?php  $this->layout('Public/MainHeader',$staticOption ) ?> 
-<script type="text/javascript">
-var gettagspath="";
-var upload_json="<?php echo $static_url; ?>/statics/lib/kind/php/upload_json.php";
-var file_manager_json="<?php echo $static_url; ?>/statics/lib/kind/php/file_manager_json.php";
-KindEditor.ready(function(K) {
-	var editor = K.create('textarea[name="info"]', {
-		urlType : 'domain',
-		allowFileManager : true
-	});
-	K('#image').click(function() {
-		editor.loadPlugin('image', function() {
-			editor.plugin.imageDialog({
-				imageUrl : K('#pic').val(),
-					clickFn : function(url, title, width, height, border, align) {
-						K('#pic').val(url);
-						$("#img").attr("src",url);
-						editor.hideDialog();
-					}
-			});
-		});
-	});
-	K('#insertfile').click(function() {
-		editor.loadPlugin('insertfile', function() {
-			editor.plugin.fileDialog({
-				fileUrl : K('#files').val(),
-				clickFn : function(url, title) {
-					K('#files').val(url);
-						editor.hideDialog();
-				}
-			});
-		});
-	});
-});
-
-</script>
-<script type="text/javascript">
-$(document).ready(function(){
-	ifreme_methei();
-});
-</script>
-</head>
+<?php  $this->insert('Public/Head',$staticOption); ?>
 
 <body>
-	<div class="metinfotop">
-	<div class="position">简体中文：内容管理 > <a href="content.html">内容管理</a> > <a href="video.html">抓取管理</a> > 添加内容</div>
-	<div class="return"><a href="javascript:;" onClick="location.href='javascript:history.go(-1)'">&lt;&lt;返回</a></div>
-	</div>
-	<div class="clear"></div>
-	
-<form  method="post" name="myform" action="index.php/admin/video/add">
-<div class="v52fmbx_tbmax">
-<div class="v52fmbx_tbbox">
-<div class="v52fmbx">
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>所属栏目：</dt>
-			<dd>
-			    <select name="cid">
-				<option value="0">选择分类</option>
-								<option value="75">客片欣赏</option>
-								</select>
-				<input name="istop" type="checkbox" class="checkbox" value="1" >&nbsp;置顶&nbsp;&nbsp;&nbsp;
-				<input name="isnice" type="checkbox" class="checkbox" value="1" >&nbsp;推荐&nbsp;&nbsp;&nbsp;
-				<input name="status" type="checkbox" class="checkbox" value="1" checked="checked">&nbsp;审核&nbsp;&nbsp;&nbsp;
-			</dd>
-		</dl>
-		</div>
-		
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>标题：</dt>
-			<dd>
-				<input name="title" id="title" type="text" class="text nonull" value="">
-			</dd>
-		</dl>
-		</div>
-		
-		
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>缩略图：</dt>
-			<dd>
-				<input name="pic" id="pic" type="text" class="text" value="">
-				<input type="button" id="image" class="bnt_public" value="图片上传"/>
-				<img id="img" width="80" height="50" src="<?php echo $static_url; ?>/statics/base/images/nopic.gif">
-			</dd>
-		</dl>
-		</div>
-		
-		
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>视频：</dt>
-			<dd>
-				<input name="fileurl" id="files" type="text" class="text" value="">
-				<input type="button" id="insertfile" class="bnt_public" value="上传文件" />
-				<span class="tips">不推荐上传视频文件，把视频上传到优酷，获取视频文件地址拷贝到此处</span>
-			</dd>
-		</dl>
-		</div>
-		
-		<h3 class="v52fmbx_hr metsliding" sliding="3">参数设置</h3>
- 
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>发布人：</dt>
-			<dd>
-			    <input name="author" type="text" class="text mid" size="10" value="admin">
-			    排序：
-				<input name="ordnum" type="text" class="text mid" size="10" value="0">
-				<span class="tips">数字越大越靠前</span>
-			</dd>
-		</dl>
+<article class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-member-add">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属类别：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <?php foreach ($videotype as $key => $value) { ?>
+                    <div class="radio-box">
+                        <input type="radio" id="video-type-<?php echo $key; ?>" value="<?php echo $key; ?>" name="video_type"  <?php if($key == '1'){ echo 'checked';} ?>>
+                        <label for="video-type-<?php echo $key; ?>"><?php echo $value['type']; ?></label>
+                    </div>
+                <?php }?>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属分类：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" name="category">
+                    <option value="0">选择分类</option>
+                    <?php foreach ($catList as $key => $value) { ?>
+                        <option value="<?php echo $key ?>"><?php echo $value; ?></option>
+                    <?php  } ?>
+                </select>
+				</span> </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>抓取类型：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <?php foreach ($typeList as $key => $value) { ?>
+                    <div class="radio-box">
+                        <input type="radio" id="type-<?php echo $key; ?>" value="<?php echo $key; ?>" name="type"  <?php if($key == '1'){ echo 'checked';} ?>>
+                        <label for="type-<?php echo $key; ?>"><?php echo $value; ?>
+                         <?php echo  ($key == '3') ? '&nbsp;&nbsp;<span style="color:red">计划任务每天凌晨0:00执行</span>' : ''; ?>
+                        </label>
+                    </div>
+                <?php }?>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>抓取说明：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="grab_title" name="grab_title">
+            </div>
+        </div>
+
+		<div class="row cl channelId_div">
+			<label class="form-label col-xs-4 col-sm-3">频道ID：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="YOUTUBE频道ID" id="channelId" name="channelId">
+			</div>
 		</div>
 
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>点击次数：</dt>
-			<dd>
-				<input name="hits" type="text" class="text mid" size="10"  value="0">
-				<span class="tips">点击次数越多，热门信息中排名越靠前</span>
-				来源：
-				<input name="comefrom" type="text" class="text" value="">
-				<span class="tips">文章来自哪个网站？</span>
-			</dd>
-		</dl>
-		</div>
-		
-		
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>发布时间：</dt>
-			<dd>
-				<input name="addtime" type="text" class="text" value="2015-03-10 16:39:33">
-				<span class="tips">当前时间为：2015-03-10 16:39:33 注意不要改变格式。</span>
-			</dd>
-		</dl>
-		</div>
-		
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>详细内容：</dt>
-			<dd>
-				<textarea class="ckeditor" name="info" style="width:98%;"></textarea>
-			</dd>
-		</dl>
-		</div>
-		<h3 class="v52fmbx_hr metsliding" sliding="3">搜索引擎优化设置(seo)</h3>
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>页面Title：</dt>
-			<dd>
-				<input name="seotitle" type="text" class="text" value="">
-				<span class="tips">为空则使用SEO参数设置中设置的title构成方式</span>
-			</dd>
-		</dl>
-		</div>
-		
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>关键词：</dt>
-			<dd>
-				<input name="seokey" type="text" class="text" size="40"  value="">
-				<span class="tips">用于搜索引擎优化,多个关键词请用&quot;,&quot;隔开</span>
-			</dd>
-		</dl>
-		</div>
-		
-		<div class="v52fmbx_dlbox">
-		<dl>
-			<dt>简短描述：</dt>
-			<dd>
-				<textarea name="seodesc" class="textarea gen" cols="60" rows="5" ></textarea>
-			</dd>
-		</dl>
-		</div>
-		
-		
-		
-		<div class="v52fmbx_dlbox v52fmbx_mo">
-			<dl>
-				<dt></dt>
-				<dd>
-					<input type="submit"  value="保存" class="submit" onclick="return Smit($(this),'myform')" />
-				</dd>
-			</dl>
-		</div>
-		
-		
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>抓取地址：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="B站页面抓取目前只支持排行榜的页面" id="grab_address" name="grab_address">
+            </div>
+        </div>
 
-	</div>
-	
-	<div class="v52fmbx_dlbox v52fmbx_mo" style="height:200px">
-		 <dl>
-			<dt></dt>
-			<dd></dd>	
-		</dl>	
-	</div>
-	
-</div>
-</div>
-</div>      
-</form>
-<?php $this->insert('Public/Footer',$staticOption ) ?>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>抓取个数：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="grabnum" name="grabnum">
+            </div>
+        </div>
+
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<?php $this->insert('Public/Footer',$staticOption); ?>
+<!--/_footer 作为公共模版分离出去-->
+
+<script type="text/javascript">
+	$(function(){
+        $(".footer").hide();
+		$('.skin-minimal input').iCheck({
+			checkboxClass: 'icheckbox-blue',
+			radioClass: 'iradio-blue',
+			increaseArea: '20%'
+		});
+
+        //ifCreated 事件应该在插件初始化之前绑定
+        $('input').on('ifChecked', function(event){
+            var inputName = event.target.name;
+            var inputVal  = event.target.defaultValue;
+            if(inputName == 'video_type'){
+                if(inputVal == '2'){
+                   $(".channelId_div").hide();
+                }else{
+                    $(".channelId_div").show();
+               }
+            }
+        });
+
+        $("#form-member-add").validate({
+			rules:{
+                grabnum:{
+					required:true,
+                    min:1
+				},
+                grab_address:{
+                    required:false,
+                },
+                grab_title:{
+                    required:true,
+                    minlength:2,
+                    maxlength:50
+                },
+                channelId:{
+                    required:false,
+                },
+                type:{
+                    required:true,
+                },
+                category:{
+					required:true,
+                    min:1
+				},
+                video_type:{
+                    required:true
+                }
+			},
+            messages: {
+                category: {
+                    required: "请选择分类",
+                    min:$.validator.format("请选择分类")
+                }
+            },
+			onkeyup:false,
+			focusCleanup:true,
+			success:"valid",
+			submitHandler:function(form){
+				var index = parent.layer.getFrameIndex(window.name);
+                $.ajax({
+                    type: 'POST',
+                    url: '/grab/save',
+                    dataType: 'json',
+                    data: $("#form-member-add").serialize(),
+                    success: function (data) {
+                        if(data.code == '1'){
+                           layer.msg(data.message, {icon: 6, time: 1000});
+                         }else{
+                            layer.msg(data.message, {icon: 5, time: 1000});
+                         }
+                         setTimeout(function(){
+                             parent.location.replace('/grab/index');
+                             parent.layer.close(index);
+                         },1000);
+                    },
+                    error: function (data) {
+                        layer.msg(data.message, {icon: 5, time: 1000});
+                        console.log(data.message);
+                    },
+                });
+			}
+		});
+	});
+
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
 </body>
 </html>
